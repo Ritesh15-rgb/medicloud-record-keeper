@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Bell, Search, Moon, Sun } from "lucide-react";
+import { Search, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/providers/ThemeProvider";
 import { Link } from "react-router-dom";
+import NotificationsPopover from "@/components/notifications/NotificationsPopover";
 
 type HeaderProps = {
   title: string;
@@ -65,9 +66,7 @@ const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
             </form>
           )}
 
-          <Button variant="ghost" size="icon" className="text-gray-500">
-            <Bell className="h-5 w-5" />
-          </Button>
+          <NotificationsPopover />
 
           <Button
             variant="ghost"
