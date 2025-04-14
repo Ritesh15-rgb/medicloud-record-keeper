@@ -1,73 +1,56 @@
-# Welcome to your Lovable project
 
-## Project info
+# MediVault - Medical Records & Receipt Organizer
 
-**URL**: https://lovable.dev/projects/69fb2182-06fc-4978-ad4e-01478c9545ff
+MediVault is a secure platform for storing, organizing, and accessing medical records and receipts. This application allows users to keep track of their healthcare documents in one convenient location.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Secure Authentication**: User authentication powered by Clerk
+- **Dashboard**: View all your medical records in one place
+- **Upload System**: Easily add new medical records with detailed information
+- **Search & Filter**: Find specific records quickly with powerful search and filtering
+- **Record Management**: View, edit, download, and share your medical records
+- **User Profiles**: Store emergency contact information and personal details
+- **Responsive Design**: Seamless experience across desktop and mobile devices
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/69fb2182-06fc-4978-ad4e-01478c9545ff) and start prompting.
+- **Frontend**: React with TypeScript
+- **Styling**: Tailwind CSS with shadcn-ui components
+- **Authentication**: Clerk
+- **Routing**: React Router
+- **State Management**: React Query
+- **Icons**: Lucide React
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (v14 or later)
+- npm, yarn, or pnpm
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Start the development server with `npm run dev`
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Authentication Setup
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+To enable authentication with Clerk:
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Sign up for a Clerk account at [clerk.dev](https://clerk.dev)
+2. Get your publishable key from the Clerk dashboard
+3. Replace the placeholder in `src/components/auth/ClerkProviderWithRoutes.tsx` with your key
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Project Structure
 
-**Edit a file directly in GitHub**
+- `/src/components` - Reusable UI components
+- `/src/pages` - Main application pages
+- `/src/providers` - Context providers
+- `/src/hooks` - Custom React hooks
+- `/src/lib` - Utility functions
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## License
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/69fb2182-06fc-4978-ad4e-01478c9545ff) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License.
