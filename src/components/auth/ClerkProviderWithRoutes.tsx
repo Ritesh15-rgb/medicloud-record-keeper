@@ -1,5 +1,5 @@
 
-import { ClerkProvider, RedirectToSignIn, SignIn, SignUp, useAuth } from "@clerk/clerk-react";
+import { ClerkProvider, RedirectToSignIn, SignIn, SignUp } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import Upload from "@/pages/Upload";
@@ -76,6 +76,9 @@ export const ClerkProviderWithRoutes = () => {
   );
 };
 
+// Import the real useAuth from Clerk since we're no longer defining our own
+import { useAuth } from "@clerk/clerk-react";
+
 // Component to protect routes that require authentication
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isSignedIn, isLoaded } = useAuth();
@@ -89,14 +92,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
   
   return <>{children}</>;
-};
-
-// Mock useAuth hook for now - will be replaced with actual Clerk hook
-const useAuth = () => {
-  return {
-    isSignedIn: true, // For development, set to true to bypass authentication
-    isLoaded: true
-  };
 };
 
 export default ClerkProviderWithRoutes;
