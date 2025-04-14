@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/providers/ThemeProvider";
+import { Link } from "react-router-dom";
 
 type HeaderProps = {
   title: string;
@@ -93,11 +94,14 @@ const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className="cursor-pointer" asChild>
-                <a href="/profile">Profile</a>
+              <DropdownMenuItem className="cursor-pointer">
+                <Link to="/profile" className="w-full">Profile</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" asChild>
-                <a href="/settings">Settings</a>
+              <DropdownMenuItem className="cursor-pointer">
+                <Link to="/settings" className="w-full">Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <Link to="/signin" className="w-full">Sign Out</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

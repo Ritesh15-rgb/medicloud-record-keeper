@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, Upload, User, LogOut, 
-  Menu, X, ShieldCheck 
+  Menu, X, ShieldCheck, Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -17,8 +17,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    // Simple signout just navigates to home page
-    navigate("/");
+    // Simple signout just navigates to signin page
+    navigate("/signin");
   };
   
   const navItems = [
@@ -36,6 +36,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
       name: "Profile",
       path: "/profile",
       icon: <User className="h-5 w-5" />,
+    },
+    {
+      name: "Settings",
+      path: "/settings",
+      icon: <Settings className="h-5 w-5" />,
     },
   ];
 

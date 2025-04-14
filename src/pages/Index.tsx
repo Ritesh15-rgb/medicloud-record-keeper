@@ -22,8 +22,8 @@ const LandingPage = () => {
             <Button onClick={() => navigate("/dashboard")}>Dashboard</Button>
           ) : (
             <div className="flex space-x-4">
-              <Button variant="outline" onClick={() => navigate("/dashboard")}>Sign In</Button>
-              <Button onClick={() => navigate("/dashboard")}>Get Started</Button>
+              <Button variant="outline" onClick={() => navigate("/signin")}>Sign In</Button>
+              <Button onClick={() => navigate("/signup")}>Get Started</Button>
             </div>
           )}
         </div>
@@ -39,7 +39,7 @@ const LandingPage = () => {
             MediVault helps you organize all your medical records and receipts in one secure, 
             easy-to-access place. Never lose an important document again.
           </p>
-          <Button size="lg" onClick={() => navigate("/dashboard")}>
+          <Button size="lg" onClick={() => navigate("/signup")}>
             Get Started for Free
           </Button>
         </div>
@@ -108,7 +108,7 @@ const LandingPage = () => {
             size="lg"
             variant="outline"
             className="border-white text-white hover:bg-white hover:text-medivault-deep-purple"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/signup")}
           >
             Get Started Now
           </Button>
