@@ -60,7 +60,7 @@ const FilterBar = ({ onFilterChange }: FilterBarProps) => {
           </div>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All Categories</SelectItem>
+          <SelectItem value="all">All Categories</SelectItem>
           <SelectItem value="prescription">Prescription</SelectItem>
           <SelectItem value="lab-report">Lab Report</SelectItem>
           <SelectItem value="consultation">Consultation</SelectItem>

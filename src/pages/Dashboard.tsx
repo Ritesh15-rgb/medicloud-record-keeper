@@ -96,7 +96,7 @@ const Dashboard = () => {
     let result = [...records];
 
     // Filter by category
-    if (filters.category) {
+    if (filters.category && filters.category !== "all") {
       result = result.filter((record) => record.category === filters.category);
     }
 
