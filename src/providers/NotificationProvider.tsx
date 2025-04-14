@@ -68,32 +68,48 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setNotifications(prev => prev.filter(notification => notification.id !== id));
   };
   
-  // Initialize with some sample notifications for demo purposes
+  // Initialize with medical-specific notifications
   useEffect(() => {
     setNotifications([
       {
         id: '1',
-        title: 'Project Deadline',
-        message: 'Your "Marketing Campaign" project is due tomorrow',
+        title: 'Medication Reminder',
+        message: 'Time to take your prescribed antibiotics (2 pills)',
         type: 'warning',
         read: false,
-        date: new Date(Date.now() - 1000 * 60 * 60) // 1 hour ago
+        date: new Date(Date.now() - 1000 * 60 * 30) // 30 minutes ago
       },
       {
         id: '2',
-        title: 'New Message',
-        message: 'You received a new message from Sarah',
+        title: 'Appointment Scheduled',
+        message: 'Dr. Smith confirmed your cardiology appointment for tomorrow at 10:00 AM',
         type: 'info',
         read: false,
-        date: new Date(Date.now() - 1000 * 60 * 60 * 3) // 3 hours ago
+        date: new Date(Date.now() - 1000 * 60 * 60 * 2) // 2 hours ago
       },
       {
         id: '3',
-        title: 'System Update',
-        message: 'System will be under maintenance this weekend',
+        title: 'Lab Results Ready',
+        message: 'Your recent blood work results are now available in your records',
         type: 'info',
+        read: false,
+        date: new Date(Date.now() - 1000 * 60 * 60 * 5) // 5 hours ago
+      },
+      {
+        id: '4',
+        title: 'Prescription Refill',
+        message: 'Your hypertension medication needs to be refilled within 3 days',
+        type: 'warning',
         read: true,
         date: new Date(Date.now() - 1000 * 60 * 60 * 24) // 1 day ago
+      },
+      {
+        id: '5',
+        title: 'Health Insurance Update',
+        message: 'Your insurance claim for the recent MRI has been approved',
+        type: 'info',
+        read: true,
+        date: new Date(Date.now() - 1000 * 60 * 60 * 36) // 1.5 days ago
       }
     ]);
   }, []);
