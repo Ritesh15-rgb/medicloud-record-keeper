@@ -1,5 +1,5 @@
 
-import { ClerkProvider, RedirectToSignIn, SignIn, SignUp } from "@clerk/clerk-react";
+import { ClerkProvider, RedirectToSignIn, SignIn, SignUp, useAuth } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import Upload from "@/pages/Upload";
@@ -8,20 +8,20 @@ import Record from "@/pages/Record";
 import LandingPage from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import { useTheme } from "@/providers/ThemeProvider";
+import MainLayout from "@/components/layout/MainLayout";
 
 // Placeholder for Clerk publishable key
 // In a real environment, you would use an environment variable
-const PUBLISHABLE_KEY = "YOUR_CLERK_PUBLISHABLE_KEY";
+const PUBLISHABLE_KEY = process.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_Y2xlcmsuZGV2LmxvdmFibGUtOTguY2xlcmt0ZXN0LmFjY291bnRzLmRldiQ"; // Using a placeholder test key
 
 export const ClerkProviderWithRoutes = () => {
-  const navigate = useNavigate();
   const { theme } = useTheme();
   
   return (
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
       appearance={{
-        baseTheme: theme === "dark" ? "dark" : "light",
+        baseTheme: theme === "dark" ? "dark" : "light" as const,
         elements: {
           formButtonPrimary: 
             "bg-medivault-purple hover:bg-medivault-deep-purple text-sm normal-case",
@@ -38,46 +38,20 @@ export const ClerkProviderWithRoutes = () => {
           path="/sign-up/*"
           element={<SignUp routing="path" path="/sign-up" redirectUrl="/profile" />}
         />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/upload"
-          element={
-            <ProtectedRoute>
-              <Upload />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/record/:id"
-          element={
-            <ProtectedRoute>
-              <Record />
-            </ProtectedRoute>
-          }
-        />
+        
+        {/* Protected routes with MainLayout */}
+        <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/record/:id" element={<Record />} />
+        </Route>
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ClerkProvider>
   );
 };
-
-// Import the real useAuth from Clerk since we're no longer defining our own
-import { useAuth } from "@clerk/clerk-react";
 
 // Component to protect routes that require authentication
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {

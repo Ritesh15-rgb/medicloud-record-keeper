@@ -1,14 +1,13 @@
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, Upload, User, LogOut, 
-  Menu, X, File, ShieldCheck 
+  Menu, X, ShieldCheck 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useClerk } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom";
+import { useAuth, useClerk } from "@clerk/clerk-react";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
@@ -17,6 +16,7 @@ type SidebarProps = {
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   const { signOut } = useClerk();
+  const { isSignedIn } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -106,16 +106,18 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
         </nav>
         
         {/* Sign out button at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t">
-          <Button
-            variant="ghost"
-            className="w-full flex items-center justify-start space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
-            onClick={handleSignOut}
-          >
-            <LogOut className="h-5 w-5" />
-            <span>Sign Out</span>
-          </Button>
-        </div>
+        {isSignedIn && (
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t">
+            <Button
+              variant="ghost"
+              className="w-full flex items-center justify-start space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+              onClick={handleSignOut}
+            >
+              <LogOut className="h-5 w-5" />
+              <span>Sign Out</span>
+            </Button>
+          </div>
+        )}
       </div>
       
       {/* Toggle button for mobile */}
