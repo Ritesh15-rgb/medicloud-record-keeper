@@ -1,6 +1,5 @@
 
 import React from "react";
-import { useUser } from "@clerk/clerk-react";
 import { Bell, Search, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,9 +19,14 @@ type HeaderProps = {
 };
 
 const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
-  const { user } = useUser();
   const { theme, setTheme } = useTheme();
   const [searchQuery, setSearchQuery] = React.useState("");
+
+  // Mock user data
+  const user = {
+    fullName: "John Doe",
+    imageUrl: ""
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,9 +85,9 @@ const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.imageUrl} alt={user?.fullName || ""} />
+                  <AvatarImage src={user.imageUrl} alt={user.fullName || ""} />
                   <AvatarFallback>
-                    {user?.fullName ? getInitials(user.fullName) : "U"}
+                    {user.fullName ? getInitials(user.fullName) : "U"}
                   </AvatarFallback>
                 </Avatar>
               </Button>

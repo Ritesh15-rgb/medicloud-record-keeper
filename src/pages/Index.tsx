@@ -3,11 +3,11 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ShieldCheck, Upload, User, Search, Lock } from "lucide-react";
-import { useUser, SignInButton, SignUpButton } from "@clerk/clerk-react";
 
 const LandingPage = () => {
-  const { isSignedIn } = useUser();
   const navigate = useNavigate();
+  // Simple mock auth state for demonstration
+  const isSignedIn = false;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-medivault-soft-purple">
@@ -22,12 +22,8 @@ const LandingPage = () => {
             <Button onClick={() => navigate("/dashboard")}>Dashboard</Button>
           ) : (
             <div className="flex space-x-4">
-              <SignInButton mode="modal">
-                <Button variant="outline">Sign In</Button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <Button>Get Started</Button>
-              </SignUpButton>
+              <Button variant="outline" onClick={() => navigate("/dashboard")}>Sign In</Button>
+              <Button onClick={() => navigate("/dashboard")}>Get Started</Button>
             </div>
           )}
         </div>
@@ -43,15 +39,9 @@ const LandingPage = () => {
             MediVault helps you organize all your medical records and receipts in one secure, 
             easy-to-access place. Never lose an important document again.
           </p>
-          {isSignedIn ? (
-            <Button size="lg" onClick={() => navigate("/dashboard")}>
-              Go to Dashboard
-            </Button>
-          ) : (
-            <SignUpButton mode="modal">
-              <Button size="lg">Get Started for Free</Button>
-            </SignUpButton>
-          )}
+          <Button size="lg" onClick={() => navigate("/dashboard")}>
+            Get Started for Free
+          </Button>
         </div>
         <div className="md:w-1/2 md:pl-10">
           <img
@@ -114,26 +104,14 @@ const LandingPage = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join thousands of users who have simplified managing their healthcare documentation.
           </p>
-          {isSignedIn ? (
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-medivault-deep-purple"
-              onClick={() => navigate("/dashboard")}
-            >
-              Go to Dashboard
-            </Button>
-          ) : (
-            <SignUpButton mode="modal">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-medivault-deep-purple"
-              >
-                Get Started Now
-              </Button>
-            </SignUpButton>
-          )}
+          <Button
+            size="lg"
+            variant="outline"
+            className="border-white text-white hover:bg-white hover:text-medivault-deep-purple"
+            onClick={() => navigate("/dashboard")}
+          >
+            Get Started Now
+          </Button>
         </div>
       </section>
 
