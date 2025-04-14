@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import FilterBar from "@/components/ui/FilterBar";
-import RecordCard, { Record } from "@/components/ui/RecordCard";
+import RecordCard, { Record as MedicalRecord } from "@/components/ui/RecordCard";
 import { Card } from "@/components/ui/card";
 import { FilePlus, Clock, PieChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [records, setRecords] = useState<Record[]>([]);
-  const [filteredRecords, setFilteredRecords] = useState<Record[]>([]);
+  const [records, setRecords] = useState<MedicalRecord[]>([]);
+  const [filteredRecords, setFilteredRecords] = useState<MedicalRecord[]>([]);
   const [filters, setFilters] = useState({
     category: "",
     sortOrder: "desc",
@@ -22,7 +22,7 @@ const Dashboard = () => {
   useEffect(() => {
     // Simulate loading records from Firebase
     setTimeout(() => {
-      const mockRecords: Record[] = [
+      const mockRecords: MedicalRecord[] = [
         {
           id: "1",
           doctorName: "Dr. Sarah Johnson",
@@ -147,7 +147,7 @@ const Dashboard = () => {
 
   // Calculate summary statistics
   const totalRecords = records.length;
-  const recordsByCategory = records.reduce((acc, record) => {
+  const recordsByCategory: Record<string, number> = records.reduce((acc, record) => {
     acc[record.category] = (acc[record.category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);

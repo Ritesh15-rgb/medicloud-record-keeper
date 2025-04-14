@@ -1,5 +1,5 @@
 
-import { ClerkProvider, RedirectToSignIn, SignIn, SignUp } from "@clerk/clerk-react";
+import { ClerkProvider, RedirectToSignIn, SignIn, SignUp, useAuth } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import Upload from "@/pages/Upload";
@@ -7,7 +7,6 @@ import Profile from "@/pages/Profile";
 import Record from "@/pages/Record";
 import LandingPage from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
-import { dark } from "@clerk/themes";
 import { useTheme } from "@/providers/ThemeProvider";
 
 // Placeholder for Clerk publishable key
@@ -21,9 +20,8 @@ export const ClerkProviderWithRoutes = () => {
   return (
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
-      navigate={(to) => navigate(to)}
       appearance={{
-        baseTheme: theme === "dark" ? dark : undefined,
+        baseTheme: theme === "dark" ? "dark" : "light",
         elements: {
           formButtonPrimary: 
             "bg-medivault-purple hover:bg-medivault-deep-purple text-sm normal-case",
