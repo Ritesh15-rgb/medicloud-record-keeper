@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -30,11 +29,10 @@ const SignIn = () => {
     
     // Simple mock authentication
     if (email && password) {
-      // In a real app, you would verify credentials
       setTimeout(() => {
         toast({
-          title: "Signed in successfully",
-          description: "Redirecting to dashboard...",
+          title: "Welcome to MediVault Dental",
+          description: "Successfully signed in to your dental dashboard",
         });
         setIsLoading(false);
         navigate("/dashboard");

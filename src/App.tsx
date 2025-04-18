@@ -8,7 +8,9 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { NotificationProvider } from "@/providers/NotificationProvider";
 import MainLayout from "@/components/layout/MainLayout";
 import Dashboard from "@/pages/Dashboard";
-import Upload from "@/pages/Upload";
+import Patient from "@/pages/Patient";
+import PatientDetail from "@/pages/PatientDetail";
+import Appointments from "@/pages/Appointments";
 import Profile from "@/pages/Profile";
 import Record from "@/pages/Record";
 import LandingPage from "@/pages/Index";
@@ -34,7 +36,9 @@ const App = () => {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/" element={<MainLayout />}>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/upload" element={<Upload />} />
+                  <Route path="/patients" element={<Patient />} />
+                  <Route path="/patients/:id" element={<PatientDetail />} />
+                  <Route path="/appointments" element={<Appointments />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/record/:id" element={<Record />} />
