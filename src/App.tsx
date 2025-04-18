@@ -18,6 +18,7 @@ import NotFound from "@/pages/NotFound";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
 import Settings from "@/pages/Settings";
+import Upload from "@/pages/Upload";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/record/:id" element={<Record />} />
+                  <Route path="/upload" element={<Upload />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
