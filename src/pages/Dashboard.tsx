@@ -161,16 +161,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-medivault-soft-purple/30">
       <Header title="Dashboard" showSearch onSearch={handleSearch} />
 
       <main className="flex-1 page-container">
-        {/* Summary cards */}
+        {/* Summary cards with animation */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="p-6">
+          <Card className="p-6 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg animate-fade-in">
             <div className="flex items-center space-x-4">
               <div className="bg-medivault-soft-purple p-3 rounded-full">
-                <FilePlus className="h-6 w-6 text-medivault-purple" />
+                <FilePlus className="h-6 w-6 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Records</p>
@@ -179,10 +179,10 @@ const Dashboard = () => {
             </div>
           </Card>
           
-          <Card className="p-6">
+          <Card className="p-6 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg animate-fade-in" style={{ animationDelay: "0.1s" }}>
             <div className="flex items-center space-x-4">
               <div className="bg-medivault-soft-purple p-3 rounded-full">
-                <PieChart className="h-6 w-6 text-medivault-purple" />
+                <PieChart className="h-6 w-6 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Most Common</p>
@@ -197,10 +197,10 @@ const Dashboard = () => {
             </div>
           </Card>
           
-          <Card className="p-6">
+          <Card className="p-6 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg animate-fade-in" style={{ animationDelay: "0.2s" }}>
             <div className="flex items-center space-x-4">
               <div className="bg-medivault-soft-purple p-3 rounded-full">
-                <Clock className="h-6 w-6 text-medivault-purple" />
+                <Clock className="h-6 w-6 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Last Updated</p>
@@ -219,13 +219,15 @@ const Dashboard = () => {
         </div>
 
         {/* Filter bar */}
-        <FilterBar onFilterChange={handleFilterChange} />
+        <div className="mb-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+          <FilterBar onFilterChange={handleFilterChange} />
+        </div>
 
         {/* Records grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <Card key={i} className="h-80 animate-pulse">
+              <Card key={i} className="h-80 animate-pulse bg-white/50 backdrop-blur-sm">
                 <div className="h-40 bg-gray-200 dark:bg-gray-700 rounded-t-lg" />
                 <div className="p-4 space-y-3">
                   <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
@@ -237,14 +239,25 @@ const Dashboard = () => {
           </div>
         ) : filteredRecords.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRecords.map((record) => (
-              <RecordCard key={record.id} record={record} />
+            {filteredRecords.map((record, index) => (
+              <div 
+                key={record.id} 
+                className="animate-fade-in hover:scale-105 transition-all duration-300"
+                style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+              >
+                <RecordCard record={record} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-12 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             <h3 className="text-xl font-medium text-gray-500 mb-4">No records found</h3>
-            <Button onClick={() => navigate("/upload")}>Upload New Record</Button>
+            <Button 
+              onClick={() => navigate("/upload")}
+              className="bg-medivault-purple hover:bg-medivault-deep-purple transform hover:scale-105 transition-all duration-300"
+            >
+              Upload New Record
+            </Button>
           </div>
         )}
       </main>

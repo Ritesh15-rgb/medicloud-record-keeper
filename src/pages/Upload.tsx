@@ -7,12 +7,12 @@ import { Lock, ShieldCheck, FileCheck } from "lucide-react";
 
 const Upload = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-medivault-soft-purple/30">
       <Header title="Upload Record" />
 
       <main className="flex-1 page-container">
         <div className="max-w-4xl mx-auto">
-          <Card>
+          <Card className="animate-fade-in bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader>
               <CardTitle>Upload New Medical Record</CardTitle>
               <CardDescription>
@@ -25,9 +25,11 @@ const Upload = () => {
           </Card>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border flex items-start space-x-4">
+            <div 
+              className="bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-white/20 flex items-start space-x-4 hover:scale-105 transition-all duration-300 animate-fade-in"
+            >
               <div className="bg-medivault-soft-purple p-2 rounded-full">
-                <ShieldCheck className="h-5 w-5 text-medivault-purple" />
+                <ShieldCheck className="h-5 w-5 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <h3 className="font-medium mb-1">Secure Storage</h3>
@@ -37,9 +39,12 @@ const Upload = () => {
               </div>
             </div>
             
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border flex items-start space-x-4">
+            <div 
+              className="bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-white/20 flex items-start space-x-4 hover:scale-105 transition-all duration-300 animate-fade-in"
+              style={{ animationDelay: "0.1s" }}
+            >
               <div className="bg-medivault-soft-purple p-2 rounded-full">
-                <Lock className="h-5 w-5 text-medivault-purple" />
+                <Lock className="h-5 w-5 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <h3 className="font-medium mb-1">Privacy Protected</h3>
@@ -49,9 +54,12 @@ const Upload = () => {
               </div>
             </div>
             
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border flex items-start space-x-4">
+            <div 
+              className="bg-white/50 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-white/20 flex items-start space-x-4 hover:scale-105 transition-all duration-300 animate-fade-in"
+              style={{ animationDelay: "0.2s" }}
+            >
               <div className="bg-medivault-soft-purple p-2 rounded-full">
-                <FileCheck className="h-5 w-5 text-medivault-purple" />
+                <FileCheck className="h-5 w-5 text-medivault-purple animate-pulse" />
               </div>
               <div>
                 <h3 className="font-medium mb-1">Easy Organization</h3>
