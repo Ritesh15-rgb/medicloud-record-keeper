@@ -11,11 +11,10 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 const supabaseClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-// Add helper functions to the client
-export const supabase = {
-  ...supabaseClient,
-  // Helper method to get the storage URL for a bucket
-  getStorageUrl: (bucketName: string) => {
-    return `${SUPABASE_URL}/storage/v1/object/public/${bucketName}`;
-  }
+// Export the original client with added helper functions
+export const supabase = supabaseClient;
+
+// Add a helper method for getting storage URLs
+supabase.getStorageUrl = (bucketName: string) => {
+  return `${SUPABASE_URL}/storage/v1/object/public/${bucketName}`;
 };
