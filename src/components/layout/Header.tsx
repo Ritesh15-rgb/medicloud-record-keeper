@@ -1,5 +1,6 @@
+
 import React from "react";
-import { Search, Moon, Sun, Menu } from "lucide-react";
+import { Search, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/providers/ThemeProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NotificationsPopover from "@/components/notifications/NotificationsPopover";
 
 type HeaderProps = {
@@ -22,8 +23,8 @@ type HeaderProps = {
 const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const [searchQuery, setSearchQuery] = React.useState("");
-  const navigate = useNavigate();
 
+  // Mock user data
   const user = {
     fullName: "John Doe",
     imageUrl: ""
@@ -44,42 +45,12 @@ const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
       .toUpperCase();
   };
 
-  const navItems = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Upload Record", path: "/upload" },
-    { name: "Profile", path: "/profile" },
-    { name: "Settings", path: "/settings" },
-  ];
-
   return (
-    <header className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b py-3 px-4 md:px-6">
+    <header className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b py-3 px-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-gray-900">
-              {navItems.map((item) => (
-                <DropdownMenuItem key={item.path} className="cursor-pointer">
-                  <Link to={item.path} className="w-full">
-                    {item.name}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuItem className="cursor-pointer">
-                <Link to="/signin" className="w-full">Sign Out</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          
-          <h1 className="text-xl md:text-2xl font-semibold">{title}</h1>
-        </div>
+        <h1 className="text-2xl font-semibold">{title}</h1>
 
-        <div className="flex items-center space-x-3 md:space-x-4">
+        <div className="flex items-center space-x-4">
           {showSearch && (
             <form onSubmit={handleSearch} className="hidden md:block">
               <div className="relative">
@@ -121,7 +92,7 @@ const Header = ({ title, showSearch = false, onSearch }: HeaderProps) => {
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white dark:bg-gray-900">
+            <DropdownMenuContent align="end">
               <DropdownMenuItem className="cursor-pointer">
                 <Link to="/profile" className="w-full">Profile</Link>
               </DropdownMenuItem>
