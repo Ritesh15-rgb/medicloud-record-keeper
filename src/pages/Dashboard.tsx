@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import FilterBar from "@/components/ui/FilterBar";
@@ -19,7 +20,7 @@ const Dashboard = () => {
     date: undefined as Date | undefined,
   });
   const [isLoading, setIsLoading] = useState(true);
-  const toast = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -33,6 +34,7 @@ const Dashboard = () => {
         if (error) throw error;
 
         if (recordsData) {
+          // Construct proper URL for storage items
           const transformedRecords = recordsData.map(record => ({
             id: record.id,
             doctorName: record.doctor_name,
@@ -40,7 +42,7 @@ const Dashboard = () => {
             date: record.date,
             category: record.category,
             location: record.location,
-            imageUrl: `${supabase.storageUrl}/object/public/medical_records/${record.file_path}`,
+            imageUrl: `${supabase.getStorageUrl("medical_records")}/${record.file_path}`,
             createdAt: record.created_at,
           }));
           
