@@ -11,10 +11,18 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 const supabaseClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-// Export the original client with added helper functions
-export const supabase = supabaseClient;
+// Create a type that extends the SupabaseClient with our custom method
+type SupabaseClientWithHelpers = typeof supabaseClient & {
+  getStorageUrl: (bucketName: string) => string;
+};
+
+// Cast the client to our extended type and add the helper method
+const supabase = supabaseClient as SupabaseClientWithHelpers;
 
 // Add a helper method for getting storage URLs
 supabase.getStorageUrl = (bucketName: string) => {
   return `${SUPABASE_URL}/storage/v1/object/public/${bucketName}`;
 };
+
+// Export the modified client
+export { supabase };
