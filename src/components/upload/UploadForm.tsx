@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,11 +68,11 @@ const UploadForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate form
-    if (!formData.doctorName || !formData.reason || !formData.category || !date || !file) {
+    // Validate form - make file upload optional
+    if (!formData.doctorName || !formData.reason || !formData.category || !date) {
       toast({
         title: "Missing Information",
-        description: "Please fill out all required fields and upload a document.",
+        description: "Please fill out all required fields.",
         variant: "destructive",
       });
       return;
@@ -85,14 +86,17 @@ const UploadForm = () => {
         throw new Error("User not authenticated");
       }
 
-      // Upload file to storage
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-      const { error: uploadError, data: fileData } = await supabase.storage
-        .from('medical_records')
-        .upload(fileName, file);
+      let fileName = null;
+      // Only upload file if one is selected
+      if (file) {
+        const fileExt = file.name.split('.').pop();
+        fileName = `${user.id}/${Date.now()}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage
+          .from('medical_records')
+          .upload(fileName, file);
 
-      if (uploadError) throw uploadError;
+        if (uploadError) throw uploadError;
+      }
 
       // Create database record
       const { error: dbError } = await supabase
@@ -105,7 +109,7 @@ const UploadForm = () => {
           location: formData.location,
           date: date?.toISOString().split('T')[0],
           notes: formData.notes,
-          file_path: fileName,
+          file_path: fileName || null, // Allow null file path
         });
 
       if (dbError) throw dbError;
@@ -231,7 +235,7 @@ const UploadForm = () => {
 
         <div className="space-y-4">
           <div>
-            <Label htmlFor="file">Upload Document/Image *</Label>
+            <Label htmlFor="file">Upload Document/Image (Optional)</Label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-md">
               <div className="space-y-1 text-center">
                 {preview ? (
@@ -270,13 +274,13 @@ const UploadForm = () => {
                           className="sr-only"
                           accept="image/*,.pdf,.doc,.docx"
                           onChange={handleFileChange}
-                          required
+                          // Removed required attribute
                         />
                       </label>
                       <p className="pl-1">or drag and drop</p>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      PNG, JPG, PDF up to 10MB
+                      PNG, JPG, PDF up to 10MB (Optional)
                     </p>
                   </>
                 )}
@@ -300,3 +304,4 @@ const UploadForm = () => {
 };
 
 export default UploadForm;
+
