@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import FilterBar from "@/components/ui/FilterBar";
@@ -7,6 +6,8 @@ import { Card } from "@/components/ui/card";
 import { FilePlus, Clock, PieChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -18,89 +19,55 @@ const Dashboard = () => {
     date: undefined as Date | undefined,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const toast = useToast();
 
   useEffect(() => {
-    // Simulate loading records from Firebase
-    setTimeout(() => {
-      const mockRecords: MedicalRecord[] = [
-        {
-          id: "1",
-          doctorName: "Dr. Sarah Johnson",
-          reason: "Annual checkup and blood work",
-          date: "2023-04-15",
-          category: "consultation",
-          location: "City Medical Center",
-          imageUrl: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2",
-          createdAt: "2023-04-15T14:30:00",
-        },
-        {
-          id: "2",
-          doctorName: "Dr. Michael Chen",
-          reason: "MRI scan of right knee",
-          date: "2023-02-22",
-          category: "imaging",
-          location: "Advanced Imaging Center",
-          imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514",
-          createdAt: "2023-02-22T10:15:00",
-        },
-        {
-          id: "3",
-          doctorName: "Dr. Emily Patel",
-          reason: "Lipid panel and metabolic screening",
-          date: "2023-05-10",
-          category: "lab-report",
-          location: "LabCorp Testing Center",
-          imageUrl: "https://images.unsplash.com/photo-1579154204601-01588f351e67",
-          createdAt: "2023-05-10T09:45:00",
-        },
-        {
-          id: "4",
-          doctorName: "Dr. James Wilson",
-          reason: "Antibiotic prescription for sinusitis",
-          date: "2023-03-18",
-          category: "prescription",
-          location: "Family Health Clinic",
-          imageUrl: "https://images.unsplash.com/photo-1628595351029-c2bf17511435",
-          createdAt: "2023-03-18T16:20:00",
-        },
-        {
-          id: "5",
-          doctorName: "City Pharmacy",
-          reason: "Monthly medication refill",
-          date: "2023-05-05",
-          category: "receipt",
-          location: "City Pharmacy Downtown",
-          imageUrl: "https://images.unsplash.com/photo-1583912262358-a82d9a34554b",
-          createdAt: "2023-05-05T11:30:00",
-        },
-        {
-          id: "6",
-          doctorName: "Dr. Robert Lee",
-          reason: "Dental cleaning and X-rays",
-          date: "2023-01-12",
-          category: "imaging",
-          location: "Bright Smile Dental",
-          imageUrl: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5",
-          createdAt: "2023-01-12T14:00:00",
-        },
-      ];
+    const fetchRecords = async () => {
+      setIsLoading(true);
+      try {
+        const { data: recordsData, error } = await supabase
+          .from('medical_records')
+          .select('*')
+          .order('created_at', { ascending: false });
 
-      setRecords(mockRecords);
-      setFilteredRecords(mockRecords);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+        if (error) throw error;
+
+        if (recordsData) {
+          const transformedRecords = recordsData.map(record => ({
+            id: record.id,
+            doctorName: record.doctor_name,
+            reason: record.reason,
+            date: record.date,
+            category: record.category,
+            location: record.location,
+            imageUrl: `${supabase.storageUrl}/object/public/medical_records/${record.file_path}`,
+            createdAt: record.created_at,
+          }));
+          
+          setRecords(transformedRecords);
+          setFilteredRecords(transformedRecords);
+        }
+      } catch (error: any) {
+        toast({
+          title: "Error fetching records",
+          description: error.message,
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRecords();
+  }, [toast]);
 
   useEffect(() => {
-    // Apply filters
     let result = [...records];
 
-    // Filter by category
     if (filters.category && filters.category !== "all") {
       result = result.filter((record) => record.category === filters.category);
     }
 
-    // Filter by date
     if (filters.date) {
       const filterDate = new Date(filters.date);
       result = result.filter((record) => {
@@ -113,7 +80,6 @@ const Dashboard = () => {
       });
     }
 
-    // Sort by date
     result.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
@@ -145,14 +111,12 @@ const Dashboard = () => {
     setFilteredRecords(result);
   };
 
-  // Calculate summary statistics
   const totalRecords = records.length;
   const recordsByCategory: Record<string, number> = records.reduce((acc, record) => {
     acc[record.category] = (acc[record.category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  // Format category names for display
   const formatCategoryName = (category: string) => {
     return category
       .split("-")
@@ -165,7 +129,6 @@ const Dashboard = () => {
       <Header title="Dashboard" showSearch onSearch={handleSearch} />
 
       <main className="flex-1 page-container">
-        {/* Summary cards with animation */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="p-6 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg animate-fade-in">
             <div className="flex items-center space-x-4">
@@ -218,12 +181,10 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Filter bar */}
         <div className="mb-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
           <FilterBar onFilterChange={handleFilterChange} />
         </div>
 
-        {/* Records grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (

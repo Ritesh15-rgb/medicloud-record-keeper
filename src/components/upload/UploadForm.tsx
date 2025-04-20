@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +21,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const UploadForm = () => {
   const { toast } = useToast();
@@ -79,20 +79,52 @@ const UploadForm = () => {
     
     setIsUploading(true);
     
-    // Simulate upload delay
-    setTimeout(() => {
-      setIsUploading(false);
+    try {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+
+      // Upload file to storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+      const { error: uploadError, data: fileData } = await supabase.storage
+        .from('medical_records')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      // Create database record
+      const { error: dbError } = await supabase
+        .from('medical_records')
+        .insert({
+          user_id: user.id,
+          doctor_name: formData.doctorName,
+          reason: formData.reason,
+          category: formData.category,
+          location: formData.location,
+          date: date?.toISOString().split('T')[0],
+          notes: formData.notes,
+          file_path: fileName,
+        });
+
+      if (dbError) throw dbError;
+
       toast({
         title: "Record Uploaded Successfully",
         description: "Your medical record has been saved securely.",
       });
+      
       navigate("/dashboard");
-    }, 1500);
-    
-    // In a real implementation, you would upload to Firebase here
-    // const uploadRecord = async () => {
-    //   // Firebase implementation
-    // };
+    } catch (error: any) {
+      toast({
+        title: "Upload Failed",
+        description: error.message || "There was an error uploading your record.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
